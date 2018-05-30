@@ -1,0 +1,21 @@
+imports:
+    - { resource: parameters.yml }
+
+services:
+    ger.quotedwhere.listener:
+        class: ger\quotedwhere\event\main_listener
+        arguments:
+            - '@ger.quotedwhere.classes.handler'
+            - '@request'
+            - '@template'
+            - '@user'
+            - '%core.root_path%'
+            - '%core.php_ext%'
+        tags:
+            - { name: event.listener }
+            
+    ger.quotedwhere.classes.handler:
+        class: ger\quotedwhere\classes\handler
+        arguments:
+            - '@dbal.conn'
+            - '%ger.quotedwhere.tables.user_quoted%'

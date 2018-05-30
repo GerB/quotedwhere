@@ -1,0 +1,26 @@
+{
+    "name": "ger/quotedwhere",
+    "type": "phpbb-extension",
+    "description": "Adds a search link to find out where you where quoted. Also available in ACP.",
+    "homepage": "",
+    "version": "1.0.0",
+    "time": "2018-05-30",
+    "license": "GPL-2.0",
+    "authors": [
+        {
+            "name": "Ger",
+            "email": "",
+            "homepage": "https://github.com/GerB",
+            "role": ""
+        }
+    ],
+    "require": {
+        "php": ">=5.4"
+    },
+    "extra": {
+        "display-name": "Quoted where",
+        "soft-require": {
+            "phpbb/phpbb": ">=3.2,"
+        }
+    }
+}

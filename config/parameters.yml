@@ -1,0 +1,2 @@
+parameters:
+    ger.quotedwhere.tables.user_quoted: '%core.table_prefix%user_quoted'
