@@ -34,9 +34,9 @@ class handler
         $authors = $users = array();
         // Simple check
         if (strpos($xml, '<QUOTE ') === false)
-		{
-			return $authors;
-		}
+        {
+            return $authors;
+        }
 
 		$dom = new \DOMDocument;
 		$dom->loadXML($xml);
