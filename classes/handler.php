@@ -32,6 +32,7 @@ class handler
     public function get_quote_authors($xml)
     {
         $authors = $users = array();
+        // Simple check
         if (strpos($xml, '<QUOTE ') === false)
 		{
 			return $authors;
