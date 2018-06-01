@@ -12,7 +12,7 @@
 namespace ger\quotedwhere\acp;
 
 /**
- * Feed post bot ACP module.
+ * Quoted Where ACP module.
  */
 class main_module
 {
