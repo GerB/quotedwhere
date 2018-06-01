@@ -1,4 +1,5 @@
 <?php
+
 /**
  *
  * Quoted Where. An extension for the phpBB Forum Software package.
@@ -15,18 +16,20 @@ namespace ger\quotedwhere\acp;
  */
 class main_info
 {
-	public function module()
-	{
-		return array(
-			'filename'	=> '\ger\quotedwhere\acp\main_module',
-			'title'		=> 'QW_ACP_MODULE_TITLE',
-			'modes'		=> array(
-				'index'	=> array(
-					'title'	=> 'QW_ACP_MODULE_TITLE',
-					'auth'	=> 'ext_ger/quotedwhere && acl_a_search',
-					'cat'	=> array('ACP_CAT_DATABASE')
-				),
-			),
-		);
-	}
+
+    public function module()
+    {
+        return array(
+            'filename' => '\ger\quotedwhere\acp\main_module',
+            'title' => 'QW_ACP_MODULE_TITLE',
+            'modes' => array(
+                'index' => array(
+                    'title' => 'QW_ACP_MODULE_TITLE',
+                    'auth' => 'ext_ger/quotedwhere && acl_a_search',
+                    'cat' => array('ACP_CAT_DATABASE')
+                ),
+            ),
+        );
+    }
+
 }
