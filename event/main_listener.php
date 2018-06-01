@@ -31,11 +31,12 @@ class main_listener implements EventSubscriberInterface
     static public function getSubscribedEvents()
 	{
 		return array(
-            'core.acp_users_overview_before'        => 'set_template_var_acp',
+            'core.acp_users_overview_before'        => 'acp_user_set_vars',
             'core.page_header_after'                => 'set_template_var',
             'core.user_setup'                       => 'load_language_on_setup',
             'core.submit_post_end'                  => 'read_quote_data',
-            'core.delete_user_after'                => 'delete_user_action',
+            'core.delete_user_before'               => 'anonymize_poster',
+//            'core.delete_user_after'                => 'delete_user_action',
             'core.search_modify_submit_parameters'  => 'enforce_submit',
             'core.search_backend_search_after'      => 'search_quoted',
 		);
@@ -71,9 +72,14 @@ class main_listener implements EventSubscriberInterface
      * Add link to acp user overview page
      * @param \phpbb\event\data	$event	Event object
      */
-    public function set_template_var_acp($event)
+    public function acp_user_set_vars($event)
     {
         $this->template->assign_var('U_SEARCH_QUOTED', append_sid("{$this->phpbb_root_path}search.$this->phpEx", 'search_quoted=' . $event['user_row']['user_id']));
+        $anonymize = $this->request->variable('anonymize', '', true);
+        if (!empty($anonymize))
+        {
+            $event['action'] = $anonymize;
+        }
     }
     
     /**
@@ -122,20 +128,84 @@ class main_listener implements EventSubscriberInterface
     }
     
     /**
-     * When a user is deleted, remove from table
-     * @param \phpbb\event\data	$event	Event object
+     * Anonymize poster
+     * @param \phpbb\event\data	$event	Event objec
      */
-    public function delete_user_action($event)
+    public function anonymize_poster($event)
     {
+        $original_name = $event['retain_username'];
+        $anonymize = $this->request->variable('action', '', true);
+        if (!empty($anonymize))
+        {
+            $event['retain_username'] = false;
+        }
         if (!empty($event['user_ids']))
         {
             foreach ($event['user_ids'] as $user_id)
             {
+                if (!empty($anonymize))
+                {
+                    if (!function_exists('generate_text_for_edit'))
+                    {
+                        include($this->phpbb_root_path . 'includes/functions_content.php');
+                    }
+                    $this->handler->anonymize_user_quotes($user_id, $original_name, $anonymize);
+                }
                 $this->handler->cleanup_user($user_id);
             }
         }
         return true;
     }
+    
+    /**
+     * When a user is deleted, remove from table
+     * @param \phpbb\event\data	$event	Event object
+     */
+//    public function delete_user_action($event)
+//    {
+//        if (!empty($event['user_ids']))
+//        {
+//            foreach ($event['user_ids'] as $user_id)
+//            {
+//                $anonymize = $this->request->variable('action', '', true);
+//                if (!empty($anonymize))
+//                {
+//                    if (!function_exists('generate_text_for_edit'))
+//                    {
+//                        include($this->phpbb_root_path . 'includes/functions_content.php');
+//                    }
+//                    $this->handler->anonymize_user_quotes($user_id, $anonymize);
+//                }
+//                $this->handler->cleanup_user($user_id);
+//            }
+//        }
+//        return true;
+//    }
+    
+    /**
+     * Replace usernames in quotes with anonymous 
+     * @param \phpbb\event\data	$event	Event object
+     */
+//    public function replace_user_quotes($event)
+//    {
+//        
+//        if (strpos($mode, '_') !== false)
+//        {
+//            $parts = explode('_', $mode);
+//            $event['mode'] = $parts[0];
+//            
+//            if (!empty($event['user_ids']))
+//            {
+//                foreach($event['user_ids'] as $user_id)
+//                {
+////                    $this->handler->anonymize_user_quotes($user_id, $this->user->lang('QW_ANONYMOUS'));
+//                    
+//                }
+//            }
+//        
+//    }
+    
+    
 
     /**
      * Searching goes without extra form

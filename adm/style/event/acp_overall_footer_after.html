@@ -1,10 +1,13 @@
-<!-- IF USER_HAS_POSTS and U_SEARCH_USER -->
+<!-- IF USER_HAS_POSTS and U_SEARCH_USER and U_SEARCH_QUOTED -->
 <script>
 (function($) {
-//    var uSearchUser = '{U_SEARCH_USER}'.replace(/\&amp;/g, '&'); // Change &amp; into & in the URL
+    // Add search quotes link alongside search posts
     var searchquotes = '<a href="{U_SEARCH_QUOTED}">{LA_QW_SEARCH_USER}</a>'
-
     $('#user_overview dd strong a[href*="/search."]').after(' | ' + searchquotes);
+    
+    // Add anonymize option
+    var anonymize = '<dl><dt><label for="anonymize">{L_QW_ANONYMIZE}{L_COLON}</label><br /><span>{L_QW_ANONYMIZE_EXPLAIN}</span></dt><dd><input type="text" id="anonymize" name="anonymize" value="{L_GUEST}" /></dd></dl>';
+    $('#user_delete fieldset:first p.quick').before(anonymize);
 })(jQuery); // Avoid conflicts with other libraries
 
 </script>

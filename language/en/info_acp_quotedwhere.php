@@ -17,9 +17,12 @@ if (empty($lang) || !is_array($lang))
 {
 	$lang = array();
 }
+
 $lang = array_merge($lang, array(
     'QW_ACP_MODULE_TITLE'     => 'Quoted Where',
-    'QW_ACP_MODULE_EXPlAIN'   => 'With the Quoted Where extensie you can check where a user was quoted. For this to work, you need to create an index using the form below. <br> <strong>Note:</strong> If your board was converted or updatet to phpBB 3.2 your must assure yourself that all posts were reparsed. <a target="_blank" href="https://www.phpbb.com/community/viewtopic.php?p=14670841#p14670846">Read more</a>.',
+    'QW_ACP_MODULE_EXPlAIN'   => 'With the Quoted Where extension you can check where a user was quoted. For this to work, you need to create an index using the form below. <br> <strong>Note:</strong> If your board was converted or updatet to phpBB 3.2 your must assure yourself that all posts were reparsed. <a target="_blank" href="https://www.phpbb.com/community/viewtopic.php?p=14670841#p14670846">Read more</a>.',
+    'QW_ANONYMIZE'            => 'Replace quoted and poster name',
+    'QW_ANONYMIZE_EXPLAIN'    => 'Replace references to this username in quotes messages with given replacement and set poster name of own messages to Guest. Leave empty to keep references intact.',
     'QW_INDEX_COUNT'          => 'Number of indexed quotes',
     'QW_INDEX_CREATE'         => 'Create new index',
-		));     
+		));    

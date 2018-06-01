@@ -53,15 +53,5 @@ class main_module
             ));
             
 	}
-    
-//    private function create_index($start, $num_posts)
-//    {
-//        if ($num_posts < $start)
-//        {
-//            trigger_error($user->lang('QW_INDEX_DONE') . adm_back_link($this->u_action));
-//        }
-//        $done = $this->handler->index($start);
-//        return (int) $done;
-//    }
 
 }
