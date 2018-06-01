@@ -12,22 +12,23 @@
 namespace ger\quotedwhere\classes;
 
 class handler
-{  
+{
+
     protected $db;
     protected $user_quoted_table;
     protected $batch_size = 2000;
 
-    public function __construct(\phpbb\db\driver\driver_interface $db, $user_quoted_table) 
+    public function __construct(\phpbb\db\driver\driver_interface $db, $user_quoted_table)
     {
         $this->db = $db;
         $this->user_quoted_table = $user_quoted_table;
     }
-    
+
     /**
      * Get a list of quote authors
-	 *
-	 * @param  string   $xml Parsed text
-	 * @return string[] List of authors
+     *
+     * @param  string   $xml Parsed text
+     * @return string[] List of authors
      */
     public function get_quote_authors($xml)
     {
@@ -38,14 +39,14 @@ class handler
             return $authors;
         }
 
-		$dom = new \DOMDocument;
-		$dom->loadXML($xml);
-		$xpath = new \DOMXPath($dom);
-		foreach ($xpath->query('//QUOTE/@author') as $author)
-		{
-			$authors[] = $author->textContent;
-		}
-        
+        $dom = new \DOMDocument;
+        $dom->loadXML($xml);
+        $xpath = new \DOMXPath($dom);
+        foreach ($xpath->query('//QUOTE/@author') as $author)
+        {
+            $authors[] = $author->textContent;
+        }
+
         if (!empty($authors))
         {
             $usernames = array_unique($authors);
@@ -62,11 +63,10 @@ class handler
             }
             $this->db->sql_freeresult($result);
         }
-        
-		return $users;
+
+        return $users;
     }
-    
-    
+
     /**
      * Get list of quoted posts from DB
      * @param int $user_id
@@ -76,15 +76,15 @@ class handler
     {
         $id_ary = array();
         $sql = 'SELECT post_id FROM ' . $this->user_quoted_table . ' WHERE user_id = ' . (int) $user_id;
-        $result = $this->db->sql_query($sql);  
-        while ($row = $this->db->sql_fetchrow($result)) 
+        $result = $this->db->sql_query($sql);
+        while ($row = $this->db->sql_fetchrow($result))
         {
             $id_ary[] = $row['post_id'];
         }
         $this->db->sql_freeresult($result);
         return $id_ary;
     }
-    
+
     /**
      * Count quoted posts from DB
      * @return int
@@ -92,11 +92,11 @@ class handler
     public function count_index()
     {
         $sql = 'SELECT count(post_id) as cnt FROM ' . $this->user_quoted_table;
-        $result = $this->db->sql_query($sql);  
+        $result = $this->db->sql_query($sql);
         $row = $this->db->sql_fetchrow($result);
         return isset($row['cnt']) ? $row['cnt'] : 0;
     }
-    
+
     /**
      * (re)create index
      * @param int $start    Lowest post id to index
@@ -111,7 +111,7 @@ class handler
         }
         // Have we reached the end?
         $sql = 'SELECT max(post_id) end FROM ' . POSTS_TABLE;
-        $result = $this->db->sql_query($sql);  
+        $result = $this->db->sql_query($sql);
         $row = $this->db->sql_fetchrow($result);
         $end = isset($row['end']) ? $row['end'] : 0;
 
@@ -119,18 +119,18 @@ class handler
         {
             return true;
         }
-        
+
         $max_pid = $start + $this->batch_size;
         // Loop-tee-doo
-        for($i=$start; $i<=$max_pid; $i++)
+        for ($i = $start; $i <= $max_pid; $i++)
         {
             $post_text = $this->get_post_text($i);
             if (!empty($post_text))
             {
                 $this->cleanup_post($i);
                 // Get quoted authors
-                $users = $this->get_quote_authors($post_text);            
-                if (!empty($users)) 
+                $users = $this->get_quote_authors($post_text);
+                if (!empty($users))
                 {
                     $this->add_entries($i, $users);
                 }
@@ -139,7 +139,7 @@ class handler
         // We  have reached our max
         return $max_pid;
     }
-    
+
     /**
      * Get stored post_text
      * @param int $post_id
@@ -149,9 +149,9 @@ class handler
     private function get_post_text($post_id, $text_only = true)
     {
         $sql = 'SELECT post_text, bbcode_bitfield, bbcode_uid, enable_bbcode, enable_smilies, enable_magic_url FROM ' . POSTS_TABLE . ' WHERE post_id = ' . (int) $post_id;
-        $result = $this->db->sql_query($sql);  
+        $result = $this->db->sql_query($sql);
         $row = $this->db->sql_fetchrow($result);
-        if (!isset($row['post_text'])) 
+        if (!isset($row['post_text']))
         {
             return false;
         }
@@ -161,7 +161,7 @@ class handler
         }
         return $row;
     }
-    
+
     /**
      * Add entry for array of users
      * @param int $post_id
@@ -169,7 +169,7 @@ class handler
      */
     public function add_entries($post_id, $users)
     {
-        foreach ($users as $user_id) 
+        foreach ($users as $user_id)
         {
             if ($user_id != ANONYMOUS)
             {
@@ -188,9 +188,9 @@ class handler
      */
     public function cleanup_post($post_id)
     {
-		$sql = 'DELETE FROM ' . $this->user_quoted_table . '
+        $sql = 'DELETE FROM ' . $this->user_quoted_table . '
 			WHERE post_id = ' . (int) $post_id;
-		return $this->db->sql_query($sql);
+        return $this->db->sql_query($sql);
     }
 
     /**
@@ -200,11 +200,11 @@ class handler
      */
     public function cleanup_user($user_id)
     {
-		$sql = 'DELETE FROM ' . $this->user_quoted_table . '
+        $sql = 'DELETE FROM ' . $this->user_quoted_table . '
 			WHERE user_id = ' . (int) $user_id;
-		return $this->db->sql_query($sql);
+        return $this->db->sql_query($sql);
     }
-    
+
     /**
      * Anonymize quotes for given user
      * @param int $user_id
@@ -225,14 +225,14 @@ class handler
             {
                 $post = $this->get_post_text($post_id, false);
                 $data = $this->replace_author($post, $original_name, $replacement);
-                
+
                 $sql = 'UPDATE ' . POSTS_TABLE . ' SET ' . $this->db->sql_build_array('UPDATE', $data) . ' WHERE post_id = ' . (int) $post_id;
                 $this->db->sql_query($sql);
             }
         }
         return true;
     }
-    
+
     /**
      * Replace old author name in quotet post with new value
      * @param array $post_data post data required  by generate_text functions
@@ -247,10 +247,10 @@ class handler
             return $post_data;
         }
         $bbcode_options = (($post_data['enable_bbcode']) ? OPTION_FLAG_BBCODE : 0) +
-                (($post_data['enable_smilies']) ? OPTION_FLAG_SMILIES : 0) +
-                (($post_data['enable_magic_url']) ? OPTION_FLAG_LINKS : 0);
+            (($post_data['enable_smilies']) ? OPTION_FLAG_SMILIES : 0) +
+            (($post_data['enable_magic_url']) ? OPTION_FLAG_LINKS : 0);
         $decoded = generate_text_for_edit($post_data['post_text'], $post_data['bbcode_uid'], $bbcode_options);
-        
+
         // Get quotes from decoded message
         $out = preg_replace('~\[quote=(.*?)' . $old . '(.*?)(user_id=[0-9]+)(.*?)\]~is', '[quote=$1' . $new . '$2$4]', $decoded['text']);
 //        var_dump($out, $decoded['text'], $old, $new); die;
@@ -261,8 +261,8 @@ class handler
             'post_text' => $out,
             'post_checksum' => $checksum,
         );
-        
-        
+
+
 //        preg_match_all("#\[quote(.+?)\]>#isU", $decoded['text'], $quotes);
 //        foreach ($quotes[1] as $tag)
 //        {
@@ -291,4 +291,5 @@ class handler
 //        $result = $dom->saveXML();
 //        return $result;
     }
+
 }
