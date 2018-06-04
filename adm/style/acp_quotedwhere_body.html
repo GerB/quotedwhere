@@ -1,18 +1,24 @@
 <!-- INCLUDE overall_header.html -->
 
-<h1>{L_QW_ACP_MODULE_TITLE}</h1>
-<p>{L_QW_ACP_MODULE_EXPlAIN}</p>
+<h1>{{ lang('QW_ACP_MODULE_TITLE') }}</h1>
+<p>{{ lang('QW_ACP_MODULE_EXPlAIN') }}</p>
+<!-- IF S_REPARSE_RANGE_MAX -->
+<div class="errorbox">
+    <p>{{ lang('QW_REPARSE_EXPLAIN', S_REPARSE_RANGE_MAX) }}</p>
+</div>
+<!-- ENDIF -->
+
 <form id="acp_quotedwhere" method="post" action="{U_ACTION}">
     <fieldset>
         <dl>
-            <dt><label for="ger_quotedwhere_index_count">{L_QW_INDEX_COUNT}{L_COLON}</label></dt>
+            <dt><label for="ger_quotedwhere_index_count">{{ lang('QW_INDEX_COUNT') }}{L_COLON}</label></dt>
             <dd><strong>{S_INDEXED_QUOTES}</strong></dd>
         </dl>
         <dl>
-            <dt><label for="ger_quotedwhere_create_index">{L_QW_INDEX_CREATE}{L_COLON}</label></dt>
+            <dt><label for="ger_quotedwhere_create_index">{{ lang('QW_INDEX_CREATE') }} {L_COLON}</label></dt>
             <dd>
                 <input type="hidden" name="action" value="create" />
-                <input class="button1" type="submit" id="submit" name="submit" value="{L_SUBMIT}" />
+                <input class="button1" type="submit" id="submit" name="submit" value="{{ lang('SUBMIT') }}" />
             </dd>
         </dl>
         {S_FORM_TOKEN}

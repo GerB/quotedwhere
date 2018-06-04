@@ -23,13 +23,12 @@ class main_module
     {
         global $request, $template, $user, $phpbb_container, $config;
         $handler = $phpbb_container->get('ger.quotedwhere.classes.handler');
-
+        $config_text = $phpbb_container->get('config_text');
+        
         $this->tpl_name = 'acp_quotedwhere_body';
         $this->page_title = $user->lang('QW_ACP_MODULE_TITLE');
         add_form_key('ger/quotedwhere');
         $action = $request->variable('action', '');
-        $submit = $request->is_set_post('submit', false);
-
 
         if ($action == 'create')
         {
@@ -48,10 +47,18 @@ class main_module
             trigger_error($user->lang('SEARCH_INDEX_CREATE_REDIRECT', (int) $done));
         }
 
+        $reparser_state = $config_text->get('reparser_resume');
+        if (!empty($reparser_state))
+        {
+            $reparser_state = unserialize($reparser_state);
+            $range_max = isset($reparser_state['text_reparser.post_text']['range_max']) ? $reparser_state['text_reparser.post_text']['range_max'] : false;
+        }
+        
         // Show form
         $template->assign_vars(array(
-            'U_ACTION' => $this->u_action . '&amp;hash=' . generate_link_hash('ger_acp_quoted_where'),
-            'S_INDEXED_QUOTES' => $handler->count_index(),
+            'U_ACTION'              => $this->u_action . '&amp;hash=' . generate_link_hash('ger_acp_quoted_where'),
+            'S_INDEXED_QUOTES'      => $handler->count_index(),
+            'S_REPARSE_RANGE_MAX'   => isset($range_max) ? $range_max : 0,
         ));
     }
 

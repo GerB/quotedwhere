@@ -44,7 +44,7 @@ class v1 extends container_aware_migration
 		return array(
 			array('module.add', array(
 					'acp',
-					'ACP_CMBB_TITLE',
+					'ACP_CAT_DATABASE',
 					array(
 						'module_basename'	 => '\ger\quotedwhere\acp\main_module',
 						'modes'				 => array('index'), // Should correspond to ./acp/main_info.php modes
