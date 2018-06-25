@@ -44,7 +44,7 @@ class main_module
             }
 
             meta_refresh(1, append_sid($this->u_action . '&amp;action=create&amp;qwist=' . ($done + 1) . '&amp;hash=' . generate_link_hash('ger_acp_quoted_where')));
-            trigger_error($user->lang('SEARCH_INDEX_CREATE_REDIRECT', (int) $done));
+            trigger_error($user->lang('QW_SEARCH_INDEX_CREATE_REDIRECT', (int) $done));
         }
 
         $reparser_state = $config_text->get('reparser_resume');

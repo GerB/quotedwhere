@@ -18,7 +18,7 @@
         "php": ">=5.4"
     },
     "extra": {
-        "display-name": "Quoted where",
+        "display-name": "Find and anonymize quotes",
         "soft-require": {
             "phpbb/phpbb": ">=3.2,"
         }
