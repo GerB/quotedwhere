@@ -20,3 +20,13 @@ services:
         arguments:
             - '@dbal.conn'
             - '%ger.quotedwhere.tables.user_quoted%'
+            
+    ger.quotedwhere.cron.task.quotedwhere_cron:
+        class: ger\quotedwhere\cron\task\quotedwhere_cron
+        arguments:
+            - '@config'
+            - '@ger.quotedwhere.classes.handler'
+        calls:
+            - [set_name, [cron.task.quotedwhere_cron]]
+        tags:
+            - { name: cron.task }

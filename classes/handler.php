@@ -204,6 +204,32 @@ class handler
 			WHERE user_id = ' . (int) $user_id;
         return $this->db->sql_query($sql);
     }
+    
+    /**
+     * Remove any entry posts that no longer exist
+     * @return bool
+     */
+    public function cleanup_deleted()
+    {
+        $sql = 'SELECT post_id FROM ' . POSTS_TABLE;
+        $result = $this->db->sql_query($sql);
+        if ($result) 
+        {
+            foreach ($result as $row)
+            {
+                $all[] = $row['post_id'];
+            }
+        }
+        $this->db->sql_freeresult($result);
+        if ($all)
+        {
+            $sql = 'DELETE FROM ' . $this->user_quoted_table . '
+                WHERE ' . $this->db->sql_in_set('post_id', $all, true);
+            $result = $this->db->sql_query($sql);
+        }
+        unset($all);
+        return true;
+    }
 
     /**
      * Anonymize quotes for given user

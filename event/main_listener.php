@@ -17,7 +17,7 @@ namespace ger\quotedwhere\event;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
 /**
- * [DOI] BBcode Event listener.
+ * Quoted Where Event listener.
  */
 class main_listener implements EventSubscriberInterface
 {

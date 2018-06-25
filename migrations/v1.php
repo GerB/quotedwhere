@@ -50,6 +50,7 @@ class v1 extends container_aware_migration
 						'modes'				 => array('index'), // Should correspond to ./acp/main_info.php modes
 					),
 				)),
+            array('config.add', array('quotedwhere_cron_last_run', 0)),
 			
 		);
 	}
