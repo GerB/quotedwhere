@@ -26,6 +26,6 @@ $lang = array_merge($lang, array(
     'QW_INDEX_COUNT'                    => 'Number of indexed quotes',
     'QW_INDEX_CREATE'                   => 'Create new index',
     'QW_INDEX_DONE'                     => 'The indexing is finished',
-    'QW_REPARSE_EXPLAIN'                => 'It seems that your board was converted from another version than phpBB 3.2. phpBB 3.2 uses a new way to format messages. This conversion is done in small steps and you need to be sure that all messages have been reparsed. <a target="_blank" href="https://www.phpbb.com/community/viewtopic.php?f=461&t=2473851#p15031151">Read more</a>.<br><br>There are approximately <strong>%d</strong> posts on your board that need to be reparsed in order to be indexed properly. It is recommended to reparse first before creating an index.',
+    'QW_REPARSE_EXPLAIN'                => 'It seems that your board was converted from another version than phpBB 3.2. phpBB 3.2 uses a new way to format messages. This conversion is done in small steps and you need to be sure that all messages have been reparsed. <a target="_blank" href="https://www.phpbb.com/support/docs/en/3.2/kb/article/phpbb-32%2B-text-reparser/">Read more</a>.<br><br>There are approximately <strong>%d</strong> posts on your board that need to be reparsed in order to be indexed properly. It is recommended to reparse first before creating an index.',
     'QW_SEARCH_INDEX_CREATE_REDIRECT'   => 'Approximately %d messages processed, do not leave this page...',
 		));    

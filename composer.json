@@ -4,12 +4,12 @@
     "description": "Adds a search link to find out where you where quoted. Also available in ACP.",
     "homepage": "",
     "version": "1.0.0",
-    "time": "2018-05-30",
-    "license": "GPL-2.0",
+    "time": "2018-07-20",
+    "license": "GPL-2.0-only",
     "authors": [
         {
             "name": "Ger",
-            "email": "",
+            "email": "nope@example.com",
             "homepage": "https://github.com/GerB",
             "role": ""
         }
@@ -20,7 +20,7 @@
     "extra": {
         "display-name": "Find and anonymize quotes",
         "soft-require": {
-            "phpbb/phpbb": ">=3.2,"
+            "phpbb/phpbb": ">=3.2.0"
         }
     }
 }
