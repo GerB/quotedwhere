@@ -75,7 +75,7 @@ class handler
     public function get_quoted_list($user_id)
     {
         $id_ary = array();
-        $sql = 'SELECT post_id FROM ' . $this->user_quoted_table . ' WHERE user_id = ' . (int) $user_id .  ' ORDER BY post_id DESC;';
+        $sql = 'SELECT post_id FROM ' . $this->user_quoted_table . ' WHERE user_id = ' . (int) $user_id .  ' ORDER BY post_id DESC';
         $result = $this->db->sql_query($sql);
         while ($row = $this->db->sql_fetchrow($result))
         {
@@ -93,6 +93,7 @@ class handler
     {
         $sql = 'SELECT count(post_id) as cnt FROM ' . $this->user_quoted_table;
         $result = $this->db->sql_query($sql);
+        $this->db->sql_freeresult($result);
         $row = $this->db->sql_fetchrow($result);
         return isset($row['cnt']) ? $row['cnt'] : 0;
     }
@@ -106,12 +107,13 @@ class handler
         if ($start === 0)
         {
             // Start with clean sheet
-            $truncate = 'TRUNCATE ' . $this->user_quoted_table;
+            $truncate = 'DELETE FROM ' . $this->user_quoted_table;
             $this->db->sql_query($truncate);
         }
         // Have we reached the end?
         $sql = 'SELECT max(post_id) end FROM ' . POSTS_TABLE;
         $result = $this->db->sql_query($sql);
+        $this->db->sql_freeresult($result);
         $row = $this->db->sql_fetchrow($result);
         $end = isset($row['end']) ? $row['end'] : 0;
 
@@ -150,6 +152,7 @@ class handler
     {
         $sql = 'SELECT post_text, bbcode_bitfield, bbcode_uid, enable_bbcode, enable_smilies, enable_magic_url FROM ' . POSTS_TABLE . ' WHERE post_id = ' . (int) $post_id;
         $result = $this->db->sql_query($sql);
+        $this->db->sql_freeresult($result);
         $row = $this->db->sql_fetchrow($result);
         if (!isset($row['post_text']))
         {
@@ -173,11 +176,10 @@ class handler
         {
             if ($user_id != ANONYMOUS)
             {
-                $data = ['user_id' => (int) $user_id, 'post_id' => (int) $post_id];
-                $action = 'INSERT INTO ' . $this->user_quoted_table . ' ' . $this->db->sql_build_array('INSERT', $data);
-                $this->db->sql_query($action);
+                $data[] = ['user_id' => (int) $user_id, 'post_id' => (int) $post_id];
             }
         }
+        $this->db->sql_multi_insert($this->user_quoted_table, $data);
         return true;
     }
 
@@ -225,7 +227,7 @@ class handler
         {
             $sql = 'DELETE FROM ' . $this->user_quoted_table . '
                 WHERE ' . $this->db->sql_in_set('post_id', $all, true);
-            $result = $this->db->sql_query($sql);
+            $this->db->sql_query($sql);
         }
         unset($all);
         return true;
@@ -279,7 +281,7 @@ class handler
         $backref = ($keep_link) ? '$2$3$4' : '$2$4';
         $out = preg_replace('~\[quote=(.*?)' . $old . '(.*?)(user_id=[0-9]+)(.*?)\]~is', '[quote=$1' . $new . $backref . ']', $decoded['text']);
         $checksum = md5($out);
-        $uid = $bitfield = $options = ''; // will be modified by generate_text_for_storage
+        
         generate_text_for_storage($out, $post_data['bbcode_uid'], $post_data['bbcode_bitfield'], $bbcode_options, $post_data['enable_bbcode'], $post_data['enable_magic_url'], $post_data['enable_smilies']);
         return array(
             'post_text' => $out,

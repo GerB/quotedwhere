@@ -21,13 +21,13 @@ class main_module
 
     public function main($id, $mode)
     {
-        global $request, $template, $user, $phpbb_container, $config;
+        global $request, $template, $user, $phpbb_container;
         $handler = $phpbb_container->get('ger.quotedwhere.classes.handler');
         $config_text = $phpbb_container->get('config_text');
         
         $this->tpl_name = 'acp_quotedwhere_body';
         $this->page_title = $user->lang('QW_ACP_MODULE_TITLE');
-        add_form_key('ger/quotedwhere');
+
         $action = $request->variable('action', '');
 
         if ($action == 'create')

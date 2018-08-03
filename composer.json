@@ -1,10 +1,10 @@
 {
     "name": "ger/quotedwhere",
     "type": "phpbb-extension",
-    "description": "Adds a search link to find out where you where quoted. Also available in ACP.",
+    "description": "Find and anonymize quotes. Adds a search link to find out where you where quoted. Also available in ACP.",
     "homepage": "",
-    "version": "1.0.0",
-    "time": "2018-07-20",
+    "version": "1.0.1",
+    "time": "2018-08-03",
     "license": "GPL-2.0-only",
     "authors": [
         {
@@ -18,7 +18,7 @@
         "php": ">=5.4"
     },
     "extra": {
-        "display-name": "Find and anonymize quotes",
+        "display-name": "Quoted where",
         "soft-require": {
             "phpbb/phpbb": ">=3.2.0"
         }

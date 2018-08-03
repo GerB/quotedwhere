@@ -145,7 +145,7 @@ class main_listener implements EventSubscriberInterface
                 {
                     if (!function_exists('generate_text_for_edit'))
                     {
-                        include($this->phpbb_root_path . 'includes/functions_content.php');
+                        include($this->phpbb_root_path . 'includes/functions_content.' . $this->phpEx);
                     }
                     $this->handler->rename_user_quotes($user_id, $original_name, $anonymize);
                 }
@@ -167,7 +167,7 @@ class main_listener implements EventSubscriberInterface
             $original_name = $event['user_row']['username'];
             if (!function_exists('generate_text_for_edit'))
             {
-                include($this->phpbb_root_path . 'includes/functions_content.php');
+                include($this->phpbb_root_path . 'includes/functions_content.' . $this->phpEx);
             }
             $this->handler->rename_user_quotes($event['user_row']['user_id'], $original_name, $update_username, true);
         }

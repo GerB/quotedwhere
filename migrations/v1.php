@@ -27,8 +27,8 @@ class v1 extends container_aware_migration
 			'add_tables' => array(
 				$this->table_prefix . 'user_quoted'	 => array(
 					'COLUMNS'		 => array(
-						'user_id'	 => array('UINT:10'),
-						'post_id'	 => array('UINT:10'),
+						'user_id'	 => array('UINT:10', 0),
+						'post_id'	 => array('UINT:10', 0),
 					),
 					'KEYS'			 => array(
 						'user_post'  => array('UNIQUE', array('user_id', 'post_id')),
