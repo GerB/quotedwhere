@@ -93,8 +93,8 @@ class handler
     {
         $sql = 'SELECT count(post_id) as cnt FROM ' . $this->user_quoted_table;
         $result = $this->db->sql_query($sql);
-        $this->db->sql_freeresult($result);
         $row = $this->db->sql_fetchrow($result);
+        $this->db->sql_freeresult($result);
         return isset($row['cnt']) ? $row['cnt'] : 0;
     }
 
@@ -113,8 +113,8 @@ class handler
         // Have we reached the end?
         $sql = 'SELECT max(post_id) end FROM ' . POSTS_TABLE;
         $result = $this->db->sql_query($sql);
-        $this->db->sql_freeresult($result);
         $row = $this->db->sql_fetchrow($result);
+        $this->db->sql_freeresult($result);
         $end = isset($row['end']) ? $row['end'] : 0;
 
         if ($start > $end)
@@ -152,8 +152,8 @@ class handler
     {
         $sql = 'SELECT post_text, bbcode_bitfield, bbcode_uid, enable_bbcode, enable_smilies, enable_magic_url FROM ' . POSTS_TABLE . ' WHERE post_id = ' . (int) $post_id;
         $result = $this->db->sql_query($sql);
-        $this->db->sql_freeresult($result);
         $row = $this->db->sql_fetchrow($result);
+        $this->db->sql_freeresult($result);
         if (!isset($row['post_text']))
         {
             return false;
