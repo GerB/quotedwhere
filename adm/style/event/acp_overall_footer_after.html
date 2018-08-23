@@ -6,7 +6,7 @@
     $('#user_overview dd strong a[href*="/search."]').after(' | ' + searchquotes);
     
     // Add anonymize option
-    var anonymize = '<dl><dt><label for="anonymize">{LA_QW_ANONYMIZE}{L_COLON}</label><br /><span>{LA_QW_ANONYMIZE_EXPLAIN}</span></dt><dd><input type="text" id="anonymize" name="anonymize" value="{LA_GUEST}" /></dd></dl>';
+    var anonymize = '<dl><dt><label for="anonymize">{LA_QW_ANONYMIZE}{LA_COLON}</label><br /><span>{LA_QW_ANONYMIZE_EXPLAIN}</span></dt><dd><input type="text" id="anonymize" name="anonymize" value="{LA_GUEST}" /></dd></dl>';
     $('#user_delete fieldset:first p.quick').before(anonymize);
 })(jQuery); // Avoid conflicts with other libraries
 
