@@ -249,10 +249,11 @@ class handler
             foreach ($posts as $post_id)
             {
                 $post = $this->get_post_text($post_id, false);
-                $data = $this->replace_author($post, $original_name, $replacement, $keep_link);
-
-                $sql = 'UPDATE ' . POSTS_TABLE . ' SET ' . $this->db->sql_build_array('UPDATE', $data) . ' WHERE post_id = ' . (int) $post_id;
-                $this->db->sql_query($sql);
+                if (!empty($post)) {
+                    $data = $this->replace_author($post, $original_name, $replacement, $keep_link);
+                    $sql = 'UPDATE ' . POSTS_TABLE . ' SET ' . $this->db->sql_build_array('UPDATE', $data) . ' WHERE post_id = ' . (int) $post_id;
+                    $this->db->sql_query($sql);
+                }
             }
         }
         return true;
@@ -280,6 +281,9 @@ class handler
         // Get quotes from decoded message'
         $backref = ($keep_link) ? '$2$3$4' : '$2$4';
         $out = preg_replace('~\[quote=(.*?)' . $old . '(.*?)(user_id=[0-9]+)(.*?)\]~is', '[quote=$1' . $new . $backref . ']', $decoded['text']);
+        if (empty($out)) {
+            $out = '';
+        }
         $checksum = md5($out);
         
         generate_text_for_storage($out, $post_data['bbcode_uid'], $post_data['bbcode_bitfield'], $bbcode_options, $post_data['enable_bbcode'], $post_data['enable_magic_url'], $post_data['enable_smilies']);

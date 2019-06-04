@@ -3,8 +3,8 @@
     "type": "phpbb-extension",
     "description": "Find and anonymize quotes. Adds a search link to find out where you where quoted. Also available in ACP.",
     "homepage": "",
-    "version": "1.0.2",
-    "time": "2018-08-23",
+    "version": "1.0.3",
+    "time": "2019-06-04",
     "license": "GPL-2.0-only",
     "authors": [
         {

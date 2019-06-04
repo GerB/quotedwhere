@@ -106,7 +106,7 @@ class main_listener implements EventSubscriberInterface
         $post_text = $event['data']['message'];
 
         // Whein in edit mode and nothing changed
-        if ($event['data']['message_md5'] == $event['data']['post_checksum'])
+        if (isset($event['data']['post_checksum']) && ($event['data']['message_md5'] == $event['data']['post_checksum']))
         {
             return true;
         }
